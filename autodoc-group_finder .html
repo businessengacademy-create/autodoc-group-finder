@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autodoc · Find Your Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d83057;--red2:#f04070;--red-glow:rgba(216,48,87,.12);
+  --red-soft:#fff0f3;--red-mid:#ffd6df;
+  --bg:#f9f8f7;--bg2:#ffffff;--bg3:#f3f2f0;
+  --border:#e8e5e2;--border2:#d8d4d0;
+  --text:#1a1816;--muted:#8a857f;--muted2:#b0aba5;
+  --white:#ffffff;--green:#16a34a;--orange:#ea6c00;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* subtle paper texture */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8c0b8' fill-opacity='0.09'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;z-index:0}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:64px;background:rgba(249,248,247,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.logo-wrap{display:flex;align-items:center;gap:14px}
+.logo{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--white);background:var(--red);padding:5px 14px;border-radius:8px;letter-spacing:-.3px}
+.tdiv{width:1px;height:22px;background:var(--border2)}
+.tsub{font-size:13px;color:var(--muted);font-weight:400;letter-spacing:.3px}
+
+/* PROGRESS */
+.progress{display:flex;align-items:center;gap:2px}
+.pi{display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600;color:var(--muted2);transition:all .3s}
+.pi .pn{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:var(--bg3);border:1.5px solid var(--border2);color:var(--muted2);transition:all .3s}
+.pi.active{color:var(--red)}
+.pi.active .pn{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 0 0 3px var(--red-mid)}
+.pi.done .pn{background:#dcfce7;border-color:#86efac;color:var(--green)}
+.pi.done{color:var(--green)}
+.pchev{color:var(--border2);font-size:14px;margin:0 1px}
+
+/* HERO */
+.hero{position:relative;text-align:center;padding:68px 24px 52px;overflow:hidden;z-index:1}
+.hero-shape{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:340px;background:radial-gradient(ellipse,rgba(216,48,87,.06) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--red);background:var(--red-soft);border:1px solid var(--red-mid);padding:6px 16px;border-radius:50px;margin-bottom:22px}
+.blink{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(36px,6vw,60px);font-weight:900;color:var(--text);line-height:1.05;letter-spacing:-2px;margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--red);font-weight:300}
+.hero p{font-size:16px;color:var(--muted);max-width:400px;margin:0 auto;line-height:1.7;font-weight:300}
+.hero-step4{display:inline-flex;align-items:flex-start;gap:12px;margin-top:28px;background:#fffbeb;border:1.5px solid #fde68a;border-left:4px solid #f59e0b;border-radius:12px;padding:16px 20px;max-width:540px;text-align:left;box-shadow:0 4px 16px rgba(245,158,11,.08)}
+.hs4-icon{font-size:20px;flex-shrink:0;margin-top:1px;line-height:1}
+.hs4-text{font-size:13px;color:#78350f;line-height:1.6;font-weight:400}
+.hs4-text a{color:#b45309;font-weight:600;text-decoration:none}
+.hs4-text a:hover{text-decoration:underline}
+.hs4-text strong{color:#78350f}
+
+/* WRAP */
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 100px;position:relative;z-index:1}
+
+/* PANELS */
+.panel{display:none}
+.panel.in{display:block;animation:up .4s cubic-bezier(.22,1,.36,1) both}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.slabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--muted2);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.slabel::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* LANG CARDS */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:14px}
+.lcard{position:relative;overflow:hidden;background:var(--bg2);border:1.5px solid var(--border);border-radius:20px;padding:32px 20px 24px;cursor:pointer;transition:all .28s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.lcard-bg{position:absolute;top:-8px;right:-8px;font-size:80px;opacity:.05;pointer-events:none;transition:all .3s;transform:rotate(12deg)}
+.lcard:hover .lcard-bg{opacity:.09;transform:rotate(5deg) scale(1.1)}
+.lcard:hover{border-color:var(--red);transform:translateY(-5px);box-shadow:0 16px 40px rgba(216,48,87,.1),0 0 0 1px var(--red)}
+.lcard.sel{border-color:var(--red);background:var(--red-soft);transform:translateY(-5px);box-shadow:0 16px 40px rgba(216,48,87,.12),0 0 0 1px var(--red)}
+.lf{font-size:46px;line-height:1;position:relative;z-index:1;filter:drop-shadow(0 3px 6px rgba(0,0,0,.1))}
+.ln{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--text);position:relative;z-index:1;letter-spacing:-.4px}
+.lmeta{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative;z-index:1;width:100%}
+.ltot{font-size:11px;color:var(--muted);font-weight:500;background:var(--bg3);padding:3px 10px;border-radius:20px;border:1px solid var(--border);width:100%;text-align:center}
+.lopen{font-size:11px;font-weight:600;color:var(--green);background:#f0fdf4;border:1px solid #bbf7d0;padding:3px 10px;border-radius:20px;display:flex;align-items:center;justify-content:center;gap:5px;width:100%;text-align:center}
+
+/* BACK / CRUMB */
+.nav-row{display:flex;align-items:center;gap:10px;margin-bottom:32px;flex-wrap:wrap}
+.back-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:var(--bg2);border:1.5px solid var(--border2);border-radius:50px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s;font-family:inherit}
+.back-btn:hover{border-color:var(--red);color:var(--red);background:var(--red-soft)}
+.crumb{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:var(--bg2);border:1.5px solid var(--border);border-radius:50px;font-size:13px;font-weight:500;color:var(--muted)}
+.crumb b{color:var(--text);font-weight:600}
+.bcsep{color:var(--border2)}
+
+/* LEVEL GRID */
+.lvl-hint{font-size:14px;color:var(--muted);margin-bottom:20px;font-style:italic;font-family:'Fraunces',serif;font-weight:300}
+.level-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.lall{width:100%;background:var(--bg2);border:1.5px dashed var(--border2);border-radius:14px;padding:16px 22px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:14px;transition:all .22s;box-shadow:0 1px 3px rgba(0,0,0,.03);text-align:center}
+.lall:hover{border-color:var(--red);border-style:solid;background:var(--red-soft)}
+.lall.sel{background:var(--red);border-color:var(--red);border-style:solid;box-shadow:0 8px 24px rgba(216,48,87,.18)}
+.lall-n{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--text)}
+.lall.sel .lall-n{color:#fff}
+.lall-s{font-size:12px;color:var(--muted)}
+.lall.sel .lall-s{color:rgba(255,255,255,.75)}
+.lvc{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:18px 16px 16px;cursor:pointer;transition:all .22s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;width:160px;flex-shrink:0}
+.lvc::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:var(--border);transition:all .3s}
+.lvc:hover{border-color:var(--red);transform:translateY(-3px);box-shadow:0 10px 28px rgba(216,48,87,.1)}
+.lvc:hover::before{background:var(--red)}
+.lvc.sel{border-color:var(--red);background:var(--red-soft);transform:translateY(-3px);box-shadow:0 10px 28px rgba(216,48,87,.12)}
+.lvc.sel::before{background:linear-gradient(90deg,var(--red),var(--red2))}
+.lvc-n{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px;letter-spacing:-.3px}
+.lvc.sel .lvc-n{color:var(--red)}
+.lvc-s{display:flex;flex-direction:column;gap:2px;margin-top:8px;align-items:center}
+.lvc-t{font-size:11px;color:var(--muted)}
+.lvc-o{font-size:11px;color:var(--green);font-weight:600}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:28px;padding:16px 20px;background:var(--bg2);border:1.5px solid var(--border);border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.filter-wrap{display:flex;align-items:center;gap:8px}
+.filter-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted2);white-space:nowrap}
+.filter-tabs{display:flex;gap:0;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:3px;overflow:hidden}
+.ftab{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all .22s;font-family:inherit;white-space:nowrap}
+.ftab:hover{color:var(--text);background:var(--bg2)}
+.ftab.active-all{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.ftab.active-open{background:#f0fdf4;color:var(--green);box-shadow:0 1px 4px rgba(34,197,94,.12)}
+.ftab.active-full{background:#fff1f2;color:#e11d48;box-shadow:0 1px 4px rgba(225,29,72,.1)}
+.ftab .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.6}
+.gstats{display:flex;gap:8px;flex-wrap:wrap}
+.gchip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;font-size:12px;font-weight:600}
+.gchip.t{background:var(--bg3);border:1.5px solid var(--border);color:var(--muted)}
+.gchip.a{background:#f0fdf4;border:1.5px solid #bbf7d0;color:var(--green)}
+.gchip.f{background:#fff1f2;border:1.5px solid #fecdd3;color:#e11d48}
+.srch{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;transition:border-color .2s;min-width:200px}
+.srch:focus-within{border-color:var(--red);background:var(--bg2)}
+.srch input{border:none;outline:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);width:100%}
+.srch input::placeholder{color:var(--muted2)}
+
+/* LEVEL BLOCKS */
+.lb{margin-bottom:40px}
+.lb-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.lb-title{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--text);padding:5px 16px;background:var(--bg2);border:1.5px solid var(--border);border-radius:50px;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.lb-line{flex:1;height:1px;background:var(--border)}
+
+/* GROUP CARDS */
+.grd{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.gc{background:var(--bg2);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;transition:all .24s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.gc:not(.gf):hover{border-color:rgba(216,48,87,.35);transform:translateY(-4px);box-shadow:0 18px 44px rgba(216,48,87,.1),0 0 0 1px rgba(216,48,87,.18)}
+.gf{background:var(--bg3);opacity:.7}
+.gc-stripe{height:3px;background:linear-gradient(90deg,var(--red),var(--red2),#ff80a0);flex-shrink:0}
+.gf .gc-stripe{background:var(--border2)}
+.gc-body{padding:18px 18px 16px;display:flex;flex-direction:column;flex:1}
+.gc-r1{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:11px}
+.gc-id{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--red);letter-spacing:-.3px}
+.gf .gc-id{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:4px 10px;border-radius:6px}
+.bo{background:#f0fdf4;border:1px solid #bbf7d0;color:var(--green)}
+.bf{background:var(--bg3);border:1px solid var(--border2);color:var(--muted)}
+.gc-teacher{font-size:15px;font-weight:600;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.gc-teacher a{color:inherit;text-decoration:none;border-bottom:1.5px dashed var(--border2);transition:border-color .2s,color .2s}
+.gc-teacher a:hover{color:var(--red);border-color:var(--red)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--red-soft);border:1.5px solid var(--red-mid);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--red);flex-shrink:0}
+.gf .gc-teacher{color:var(--muted)}
+.gf .av{background:var(--bg3);border-color:var(--border);color:var(--muted2)}
+.gc-info{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.ir{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);font-weight:400}
+.ic{width:24px;height:24px;border-radius:7px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+
+/* CAPACITY */
+.cap{margin-top:auto}
+.cap-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.cap-l{font-size:11px;color:var(--muted);font-weight:500}
+.cap-v{font-size:11px;font-weight:700;color:var(--text)}
+.bbt{height:5px;background:var(--bg3);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.bbf{height:100%;border-radius:10px;transition:width .7s cubic-bezier(.22,1,.36,1)}
+.c-lo{background:linear-gradient(90deg,#22c55e,#4ade80)}
+.c-mi{background:linear-gradient(90deg,var(--orange),#fb923c)}
+.c-hi{background:linear-gradient(90deg,var(--red),var(--red2))}
+.c-fu{background:var(--border2)}
+
+.gnote{display:inline-flex;align-items:center;gap:5px;margin-top:10px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px}
+.gc-contact{display:flex;align-items:flex-start;gap:7px;margin-top:12px;padding:10px 12px;background:#f8f6ff;border:1px solid #e4dffa;border-radius:10px;font-size:11px;color:#5b4fa8;line-height:1.45}
+.gc-contact a{color:#5b4fa8;font-weight:600;text-decoration:none;white-space:nowrap}
+.gc-contact a:hover{text-decoration:underline}
+.gc-contact-icon{flex-shrink:0;margin-top:1px}
+
+/* EMPTY */
+.empty{text-align:center;padding:80px 20px;color:var(--muted)}
+.empty-icon{font-size:52px;margin-bottom:18px;display:block;opacity:.4}
+.empty h3{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px}
+.empty p{font-size:14px;font-weight:300}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .topbar{padding:0 16px}
+  .tsub,.tdiv{display:none}
+  .pi span{display:none}
+  .hero{padding:48px 20px 36px}
+  .wrap{padding:0 16px 80px}
+  .lang-grid{grid-template-columns:repeat(2,1fr)}
+  .level-grid{grid-template-columns:repeat(2,1fr)}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .srch{min-width:0}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo-wrap">
+    <div class="logo">AUTODOC</div>
+    <div class="tdiv"></div>
+    <span class="tsub">Language Programs</span>
+  </div>
+  <nav class="progress">
+    <div class="pi active" id="pi1"><div class="pn">1</div><span>Language</span></div>
+    <div class="pchev">›</div>
+    <div class="pi" id="pi2"><div class="pn">2</div><span>Level</span></div>
+    <div class="pchev">›</div>
+    <div class="pi" id="pi3"><div class="pn">3</div><span>Groups</span></div>
+  </nav>
+</header>
+
+<div id="hero" class="hero">
+  <div class="hero-shape"></div>
+  <h1>Find your<br><em>language group</em></h1>
+  <p>Browse all active study groups, check availability, and find the perfect schedule for you.</p>
+  <div class="hero-step4">
+    <div class="hs4-icon">⚠️</div>
+    <div class="hs4-text" id="hs4t"><strong>Attention!</strong> Find out which group is right for you and send us your choice to <span id="em1"></span> or <strong>@Daria Kalinina</strong> in Slack</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="panel in" id="p1">
+    <div class="slabel">Choose your language</div>
+    <div class="lang-grid" id="lang-grid"></div>
+  </div>
+  <div class="panel" id="p2">
+    <div class="nav-row">
+      <button class="back-btn" onclick="go(1)">← Back</button>
+      <div class="crumb" id="bc2"></div>
+    </div>
+    <div class="slabel">Choose your level</div>
+    <p class="lvl-hint">Not sure? Pick the level closest to your current ability.</p>
+    <div class="level-grid" id="level-grid"></div>
+  </div>
+  <div class="panel" id="p3">
+    <div class="nav-row">
+      <button class="back-btn" onclick="go(2)">← Back</button>
+      <div class="crumb" id="bc3"></div>
+    </div>
+    <div class="toolbar">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;width:100%">
+        <div class="filter-wrap">
+          <span class="filter-label">⚙ Filter</span>
+          <div class="filter-tabs">
+            <button class="ftab active-all" id="ftab-all" onclick="setFilter('all')">All</button>
+            <button class="ftab" id="ftab-open" onclick="setFilter('open')"><span class="dot"></span>Available</button>
+            <button class="ftab" id="ftab-full" onclick="setFilter('full')">🔒 Full</button>
+          </div>
+        </div>
+        <div class="gstats" id="gs"></div>
+        <div class="srch" style="margin-left:auto">
+          <span style="color:var(--muted2);font-size:14px">🔍</span>
+          <input id="q" type="text" placeholder="Search teacher, group…" oninput="flt()">
+        </div>
+      </div>
+    </div>
+    <div id="gc"></div>
+  </div>
+</div>
+
+<script>
+const DATA=[
+  {id:"Group 1",  lang:"English",teacher:"Viktoriia Baidala",    s:"Tue, Thu  20:00–21:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:6, note:"Continuation from 2025"},
+  {id:"Group 6",  lang:"English",teacher:"Alena Sykorska",       s:"Tue, Thu  08:00–09:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:8},
+  {id:"Group 15", lang:"English",teacher:"Anastasiia Khamurda",  s:"Tue, Thu  09:00–10:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"Group 47", lang:"English",teacher:"Olha Krasna",          s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 48", lang:"English",teacher:"Kateryna Chaika",      s:"Tue, Thu  10:00–11:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:8},
+  {id:"Group 52", lang:"English",teacher:"Iryna Diachenko",      s:"Tue, Thu  18:00–19:00 (Kyiv time)",level:"Pre-Intermediate",  start:"12.01.26",n:6, note:"Continuation from 2025"},
+  {id:"Group 54", lang:"English",teacher:"Viktoriia Baidala",    s:"Mon, Thu  09:00–10:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"Group 59", lang:"English",teacher:"Alena Sykorska",       s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 69", lang:"English",teacher:"Alena Sykorska",       s:"Mon, Wed  10:00–11:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 71", lang:"English",teacher:"Olha Krasna",          s:"Tue, Thu  11:00–12:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:6, note:"Continuation from 2025"},
+  {id:"Group 72", lang:"English",teacher:"Kateryna Chaika",      s:"Wed, Fri  13:00–14:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:7},
+  {id:"Group 75", lang:"English",teacher:"Kateryna Protsenko",   s:"Mon, Wed  09:00–10:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:6, note:"Continuation from 2025"},
+  {id:"Group 77", lang:"English",teacher:"Kateryna Protsenko",   s:"Tue, Thu  09:00–10:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:6, note:"Continuation from 2025"},
+  {id:"Group 78", lang:"English",teacher:"Kateryna Protsenko",   s:"Tue, Thu  10:00–11:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 84", lang:"English",teacher:"Veronika Bohdanova",   s:"Mon, Thu  12:00–13:00 (Kyiv time)",level:"Pre-Intermediate",  start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 86", lang:"English",teacher:"Anna Kuhaj",           s:"Wed, Fri  14:00–15:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 89", lang:"English",teacher:"Maryna Shkilko",       s:"Mon, Wed  11:00–12:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:6},
+  {id:"Group 90", lang:"English",teacher:"Kateryna Chaika",      s:"Mon 10–11 / Thu 13–14 (Kyiv time)", level:"Pre-Intermediate",  start:"12.01.26",n:8},
+  {id:"Group 91", lang:"English",teacher:"Mariia Myshenko",      s:"Mon, Wed  18:00–19:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:7},
+  {id:"Group 92", lang:"English",teacher:"Viktoriia Smakhtyna",  s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 95", lang:"English",teacher:"Anna Kuhaj",           s:"Mon, Wed  12:00–13:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:8},
+  {id:"Group 96", lang:"English",teacher:"Anna Yalovenko",       s:"Tue, Thu  10:00–11:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:7},
+  {id:"Group 97", lang:"English",teacher:"Anna Yalovenko",       s:"Tue, Thu  09:00–10:00 (Kyiv time)",level:"Elementary",        start:"12.01.26",n:7},
+  {id:"Group 98", lang:"English",teacher:"Olha Krasna",          s:"Mon, Wed  09:00–10:00 (Kyiv time)",level:"Elementary",        start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 99", lang:"English",teacher:"Anna Kuhaj",           s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:9},
+  {id:"Group 100",lang:"English",teacher:"Veronika Bohdanova",   s:"Tue, Fri  11:00–12:00 (Kyiv time)",level:"Pre-Intermediate",  start:"12.01.26",n:7},
+  {id:"Group 101",lang:"English",teacher:"Viktoriia Sosnivska",  s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"Beginner",          start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 102",lang:"English",teacher:"Kateryna Domnich",     s:"Mon, Thu  16:00–17:00 (Kyiv time)",level:"Elementary",        start:"12.01.26",n:8},
+  {id:"Group 103",lang:"English",teacher:"Anna Kuhaj",           s:"Mon, Wed  15:00–16:00 (Kyiv time)",level:"Beginner",          start:"12.01.26",n:8},
+  {id:"DE Group 12",lang:"English",teacher:"Olha Krasna",        s:"Tue, Fri  12:00–13:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"DE Group 13",lang:"English",teacher:"Veronika Bohdanova", s:"Mon, Wed  15:00–16:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"DE Group 14",lang:"English",teacher:"Veronika Bohdanova", s:"Wed, Fri  12:00–13:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:4, note:"Continuation from 2025"},
+  {id:"DE Group 16",lang:"English",teacher:"Liudmyla Lynnyk",    s:"Mon, Wed  12:00–13:00 (Kyiv time)",level:"Upper-Intermediate",start:"12.01.26",n:5},
+  {id:"DE Group 18",lang:"English",teacher:"Anna Kuhaj",         s:"Mon, Wed  16:00–17:00 (Kyiv time)",level:"Beginner",          start:"12.01.26",n:5},
+  {id:"PL Group 1", lang:"English",teacher:"Olha Krasna",        s:"Mon, Wed  10:00–11:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"PL Pre-Int 3",lang:"English",teacher:"Anastasiia Shevchuk",s:"Mon, Wed 11:30–12:30 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:4},
+  {id:"PL Group 5", lang:"English",teacher:"Anna Yalovenko",     s:"Tue, Thu  12:00–13:00 (Kyiv time)",level:"Intermediate",      start:"03.06.25",n:6, note:"Continuation from 2025"},
+  {id:"PT Group 6", lang:"English",teacher:"Mariia Dudich",      s:"Mon, Wed  10:00–12:00 (Kyiv time)",level:"Elementary",        start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"PT Group 9", lang:"English",teacher:"Anna Kuhaj",         s:"Mon, Fri  11:00–12:00 (Kyiv time)",level:"Beginner",          start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"PL Group 10",lang:"English",teacher:"Maryna Shkilko",     s:"Wed, Fri  14:00–15:00 (Kyiv time)",level:"Intermediate",      start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 6",  lang:"German", teacher:"Liudmyla Suprun",      s:"Tue, Fri  12:00–13:00 (Kyiv time)",level:"B2",  start:"12.01.26",n:4},
+  {id:"Group 28", lang:"German", teacher:"Maryna Lavrova",       s:"Mon, Wed  17:00–18:00 (Kyiv time)",level:"B1.2",start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"Group 33", lang:"German", teacher:"Maryna Lavrova",       s:"Tue, Thu  13:00–14:00 (Kyiv time)",level:"B1.2",start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"Group 36", lang:"German", teacher:"Maryna Lavrova",       s:"Mon, Wed  09:00–10:00 (Kyiv time)",level:"B1+", start:"12.01.26",n:3, note:"Continuation from 2025"},
+  {id:"Group 40", lang:"German", teacher:"Liudmyla Suprun",      s:"Tue, Thu  10:00–11:00 (Kyiv time)",level:"B2",  start:"12.01.26",n:5},
+  {id:"Group 43", lang:"German", teacher:"Maryna Lavrova",       s:"Tue, Thu  10:00–11:00 (Kyiv time)",level:"B1.1",start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"Group 44", lang:"German", teacher:"Maryna Lavrova",       s:"Tue, Thu  17:00–18:00 (Kyiv time)",level:"B1.1",start:"12.01.26",n:9},
+  {id:"Group 45", lang:"German", teacher:"Anna Yeliseenko",      s:"Tue, Thu  10:00–11:00 (Kyiv time)",level:"A2",  start:"12.01.26",n:8, note:"Continuation from 2025"},
+  {id:"Group 49", lang:"German", teacher:"Alina Shulepa",        s:"Wed, Fri  11:00–12:00 (Kyiv time)",level:"A2",  start:"12.01.26",n:6},
+  {id:"Group 50", lang:"German", teacher:"Alina Shulepa",        s:"Mon, Fri  13:00–14:00 (Kyiv time)",level:"A1",  start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 51", lang:"German", teacher:"Yana Sakhniuk",        s:"Tue, Thu  11:00–12:00 (Kyiv time)",level:"A1",  start:"12.01.26",n:8},
+  {id:"Group 52", lang:"German", teacher:"Yana Sakhniuk",        s:"Tue, Thu  12:00–13:00 (Kyiv time)",level:"A1",  start:"12.01.26",n:8},
+  {id:"DE Group 1",lang:"German",teacher:"Liudmyla Suprun",      s:"Mon, Thu  13:00–14:00 (Kyiv time)",level:"B2",  start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"DE Group 2",lang:"German",teacher:"Alina Shulepa",        s:"Mon, Wed  12:00–13:00 (Kyiv time)",level:"A1",  start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 3",  lang:"Portuguese",teacher:"Valia",  s:"Wed, Fri  14:00–15:00 (Kyiv time)",level:"B1",start:"12.01.26",n:4, note:"Continuation from 2025"},
+  {id:"Group 4",  lang:"Portuguese",teacher:"Valia",  s:"Wed, Fri  15:00–16:00 (Kyiv time)",level:"B1",start:"12.01.26",n:4, note:"Continuation from 2025"},
+  {id:"Group 5",  lang:"Portuguese",teacher:"Valia",  s:"Wed, Fri  16:00–17:00 (Kyiv time)",level:"B1",start:"12.01.26",n:4, note:"Continuation from 2025"},
+  {id:"Group 6",  lang:"Portuguese",teacher:"Valia",  s:"Tue, Thu  13:00–14:00 (Kyiv time)",level:"A2",start:"12.01.26",n:7, note:"Continuation from 2025"},
+  {id:"Group 7",  lang:"Portuguese",teacher:"Anhelina",s:"Mon, Wed  15:15–16:15 (Kyiv time)",level:"A1",start:"12.01.26",n:6, note:"Continuation from 2025"},
+  {id:"Group 8",  lang:"Portuguese",teacher:"Valia",  s:"Tue, Fri  18:00–19:00 (Kyiv time)",level:"A1",start:"10.02.26",n:6},
+  {id:"Group 2",  lang:"Czech",  teacher:"Suzanna",          s:"Tue, Thu  17:00–18:00 (Kyiv time)",level:"B1",start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 2",  lang:"Polish", teacher:"Yuliia Remesnyk",  s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"A2",start:"12.01.26",n:5, note:"Continuation from 2025"},
+  {id:"Group 3",  lang:"Polish", teacher:"Krystyna",         s:"Mon, Wed  13:00–14:00 (Kyiv time)",level:"A1",start:"11.02.26",n:4},
+];
+const MAX=8;
+const FL={English:"🇬🇧",German:"🇩🇪",Portuguese:"🇵🇹",Czech:"🇨🇿",Polish:"🇵🇱"};
+const LO=['Beginner','Elementary','Pre-Intermediate','Intermediate','Upper-Intermediate','Advanced','A1','A2','B1','B1.1','B1.2','B1+','B2','C1','C2'];
+let S={lang:null,level:null},pool=[];
+
+function srtL(a){return[...a].sort((x,y)=>{const xi=LO.indexOf(x),yi=LO.indexOf(y);if(xi<0&&yi<0)return x.localeCompare(y);if(xi<0)return 1;if(yi<0)return-1;return xi-yi})}
+const full=g=>g.n>=MAX;
+const ini=n=>n.split(' ').map(w=>w[0]).slice(0,1).join('').toUpperCase();
+
+// STEP 1
+(function(){
+  const g=document.getElementById('lang-grid');
+  [...new Set(DATA.map(x=>x.lang))].forEach(lang=>{
+    const all=DATA.filter(x=>x.lang===lang),op=all.filter(x=>!full(x)).length;
+    const d=document.createElement('div');d.className='lcard';
+    d.innerHTML=`<div class="lcard-bg">${FL[lang]}</div><div class="lf">${FL[lang]}</div><div class="ln">${lang}</div><div class="lmeta"><div class="ltot">${all.length} groups total</div><div class="lopen"><span class="blink"></span>${op} spots open</div></div>`;
+    d.onclick=()=>{document.querySelectorAll('.lcard').forEach(c=>c.classList.remove('sel'));d.classList.add('sel');S.lang=lang;S.level=null;setTimeout(()=>go(2),270)};
+    g.appendChild(d);
+  });
+})();
+
+// STEP 2
+function bldS2(){
+  const f=DATA.filter(x=>x.lang===S.lang),levels=srtL([...new Set(f.map(x=>x.level))]);
+  document.getElementById('bc2').innerHTML=`${FL[S.lang]} <b>${S.lang}</b>`;
+  const g=document.getElementById('level-grid');g.innerHTML='';
+  const ac=document.createElement('div');ac.className='lall';
+  ac.innerHTML=`<div class="lall-n">✦ All Levels</div><div class="lall-s">${f.length} groups · ${f.filter(x=>!full(x)).length} open</div>`;
+  ac.onclick=()=>pickL('ALL',ac);g.appendChild(ac);
+  levels.forEach(lv=>{
+    const cnt=f.filter(x=>x.level===lv).length,op=f.filter(x=>x.level===lv&&!full(x)).length;
+    const c=document.createElement('div');c.className='lvc';
+    c.innerHTML=`<div class="lvc-n">${lv}</div><div class="lvc-s"><div class="lvc-t">${cnt} group${cnt>1?'s':''}</div><div class="lvc-o">${op} open</div></div>`;
+    c.onclick=()=>pickL(lv,c);g.appendChild(c);
+  });
+}
+function pickL(lv,el){
+  document.querySelectorAll('.lvc,.lall').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');S.level=lv;setTimeout(()=>go(3),250);
+}
+
+// STEP 3
+let activeFilter='all';
+
+function setFilter(f){
+  activeFilter=f;
+  ['all','open','full'].forEach(x=>{
+    const btn=document.getElementById('ftab-'+x);
+    btn.className='ftab'+(x===f?' active-'+x:'');
+  });
+  flt();
+}
+
+function bldS3(){
+  let f=DATA.filter(x=>x.lang===S.lang);
+  if(S.level!=='ALL')f=f.filter(x=>x.level===S.level);
+  pool=f;
+  activeFilter='all';
+  ['all','open','full'].forEach(x=>{
+    const btn=document.getElementById('ftab-'+x);
+    btn.className='ftab'+('all'===x?' active-all':'');
+  });
+  const ll=S.level==='ALL'?'All Levels':S.level;
+  document.getElementById('bc3').innerHTML=`${FL[S.lang]} <b>${S.lang}</b><span class="bcsep"> › </span><b>${ll}</b>`;
+  document.getElementById('q').value='';
+  rnd(pool);
+}
+function flt(){
+  const q=document.getElementById('q').value.toLowerCase().trim();
+  let data=pool;
+  if(activeFilter==='open') data=data.filter(g=>!full(g));
+  if(activeFilter==='full') data=data.filter(g=>full(g));
+  rnd(q?data.filter(g=>g.teacher.toLowerCase().includes(q)||g.id.toLowerCase().includes(q)||g.s.toLowerCase().includes(q)||g.level.toLowerCase().includes(q)):data);
+}
+function rnd(data){
+  const tot=data.length,op=data.filter(g=>!full(g)).length,fu=tot-op;
+  document.getElementById('gs').innerHTML=`<div class="gchip t">📋 ${tot} group${tot!==1?'s':''}</div><div class="gchip a">✅ ${op} available</div>${fu?`<div class="gchip f">🔒 ${fu} full</div>`:''}`;
+  const con=document.getElementById('gc');
+  if(!data.length){con.innerHTML=`<div class="empty"><span class="empty-icon">🔍</span><h3>Nothing found</h3><p>Try a different search term.</p></div>`;return}
+  if(S.level==='ALL'){
+    const lvs=srtL([...new Set(data.map(g=>g.level))]);
+    con.innerHTML=lvs.map(lv=>`<div class="lb"><div class="lb-head"><div class="lb-title">${lv}</div><div class="lb-line"></div></div><div class="grd">${data.filter(x=>x.level===lv).map(crd).join('')}</div></div>`).join('');
+  }else{con.innerHTML=`<div class="grd">${data.map(crd).join('')}</div>`}
+}
+const TURLS={
+  "Viktoriia Baidala":"https://academy.be-english.com.ua/members/viktoriya-bajdala/",
+  "Alena Sykorska":"https://academy.be-english.com.ua/members/alena-sikorskaya/",
+  "Anastasiia Khamurda":"https://academy.be-english.com.ua/members/anastasiia-khamurda/",
+  "Olha Krasna":"https://academy.be-english.com.ua/members/olha-krasna/",
+  "Kateryna Chaika":"https://academy.be-english.com.ua/members/kateryna-chaika/",
+  "Iryna Diachenko":"https://academy.be-english.com.ua/members/iryna-dyachenko/",
+  "Maryna Shkilko":"https://academy.be-english.com.ua/members/maryna-shkilko/",
+  "Mariia Myshenko":"https://academy.be-english.com.ua/members/maria-myshenko/",
+  "Viktoriia Smakhtyna":"https://academy.be-english.com.ua/members/viktoriya-smakhtina/",
+  "Anna Kuhaj":"https://academy.be-english.com.ua/members/anna-kugay/",
+  "Anna Yalovenko":"https://academy.be-english.com.ua/members/anna-yalovenko/",
+  "Veronika Bohdanova":"https://academy.be-english.com.ua/members/veronika-bogdanova/resume/",
+  "Viktoriia Sosnivska":"https://academy.be-english.com.ua/members/viktoriia-bidzilia/",
+  "Kateryna Domnich":"https://academy.be-english.com.ua/members/kateryna-domych/resume/",
+  "Liudmyla Lynnyk":"https://academy.be-english.com.ua/members/liudmila-linnyk/resume/",
+  "Anastasiia Shevchuk":"https://academy.be-english.com.ua/members/anastasia-shevchuk/",
+  "Mariia Dudich":"https://academy.be-english.com.ua/members/mariya-dudych/",
+  "Kateryna Protsenko":"https://academy.be-english.com.ua/members/kateryna-protsenko/",
+  "Liudmyla Suprun":"https://academy.be-english.com.ua/members/liudmyla-suprun/",
+  "Maryna Lavrova":"https://academy.be-english.com.ua/members/maryna-lavrova/",
+  "Anna Yeliseenko":"https://academy.be-english.com.ua/members/anna-ieliseienko/resume/",
+  "Alina Shulepa":"https://academy.be-english.com.ua/members/alina-shulepa/resume/",
+  "Yana Sakhniuk":"https://academy.be-english.com.ua/members/yana-sakhnyuk/",
+  "Valia":"https://academy.be-english.com.ua/members/valentina-vedyanina/",
+  "Anhelina":"https://academy.be-english.com.ua/members/angelina-matveenko/resume/",
+  "Suzanna":"https://academy.be-english.com.ua/members/suzanna-borizenko/resume/",
+  "Yuliia Remesnyk":"https://academy.be-english.com.ua/members/yuliia-remesnik/",
+  "Krystyna":"https://academy.be-english.com.ua/members/khrystyna-kvych/"
+};
+function crd(g){
+  const f=full(g),pct=Math.min(100,Math.round(g.n/MAX*100));
+  let c='c-lo';if(f)c='c-fu';else if(pct>=75)c='c-hi';else if(pct>=50)c='c-mi';
+  const badge=f?`<div class="badge bf">🔒 Full</div>`:`<div class="badge bo"><span class="blink"></span>Open</div>`;
+  const note=g.note?`<div class="gnote">📌 ${g.note}</div>`:'';
+  return`<div class="gc${f?' gf':''}"><div class="gc-stripe"></div><div class="gc-body">
+    <div class="gc-r1"><div class="gc-id">${g.id}</div>${badge}</div>
+    <div class="gc-teacher"><div class="av">${ini(g.teacher)}</div>${TURLS[g.teacher]?'<a href="'+TURLS[g.teacher]+'" target="_blank" rel="noopener">'+g.teacher+'</a>':g.teacher}</div>
+    <div class="gc-info">
+      <div class="ir"><div class="ic">📅</div><span>${g.s}</span></div>
+      <div class="ir"><div class="ic">🗓️</div><span>Started ${g.start}</span></div>
+    </div>
+    <div class="cap"><div class="cap-top"><span class="cap-l">Capacity</span><span class="cap-v">${g.n} / ${MAX}</span></div>
+    <div class="bbt"><div class="bbf ${c}" style="width:${pct}%"></div></div></div>
+    ${note}
+    <div class="gc-contact"><span class="gc-contact-icon">💬</span><span>Questions? Contact: ${window._CONTACT_HTML||('business.eng.academy'+'@'+'gmail.com')} or Slack <strong>@Daria Kalinina</strong></span></div>
+  </div></div>`;
+}
+
+
+function go(step){
+  [1,2,3].forEach(n=>{
+    document.getElementById('p'+n).className=n===step?'panel in':'panel';
+    const pi=document.getElementById('pi'+n);
+    pi.className='pi'+(n===step?' active':n<step?' done':'');
+  });
+  document.getElementById('hero').style.display=step===1?'':'none';
+  if(step===2)bldS2();
+  if(step===3)bldS3();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Inject email via JS to prevent Cloudflare obfuscation
+(function(){
+  var e='business.eng.academy'+'@'+'gmail.com';
+  var a='<a href="mailto:'+e+'" style="color:var(--red);font-weight:600;text-decoration:none;">'+e+'</a>';
+  var el=document.getElementById('em1');
+  if(el)el.innerHTML=a;
+  window._CONTACT_HTML=a;
+})();
+</script>
+</body>
+</html>
