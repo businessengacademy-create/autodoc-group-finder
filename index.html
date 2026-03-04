@@ -237,6 +237,22 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div class="slabel">Choose your level</div>
     <p class="lvl-hint">Not sure? Pick the level closest to your current ability.</p>
     <div class="level-grid" id="level-grid"></div>
+    <div class="waitlist-block">
+  <div class="waitlist-icon">📋</div>
+  <div class="waitlist-body">
+    <div class="waitlist-title">Didn't find a convenient group?</div>
+    <div class="waitlist-sub">Sign up for the waiting list and we'll notify you when a suitable group opens up.</div>
+    <a class="waitlist-link" href="https://confluence.autodoc.de/display/PEOP/Language+Request+Guide" target="_blank" rel="noopener">
+      📎 Create a ticket — Language Request Guide ↗
+    </a>
+    <div class="wt-label">Preferred time slot for classes</div>
+    <div class="waitlist-times">
+      <button class="wt-chip" onclick="this.classList.toggle('wt-sel')"><span class="wt-emoji">🌅</span> Morning</button>
+      <button class="wt-chip" onclick="this.classList.toggle('wt-sel')"><span class="wt-emoji">☀️</span> Afternoon</button>
+      <button class="wt-chip" onclick="this.classList.toggle('wt-sel')"><span class="wt-emoji">🌙</span> Evening</button>
+    </div>
+  </div>
+</div>
   </div>
   <div class="panel" id="p3">
     <div class="nav-row">
